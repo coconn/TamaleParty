@@ -32,9 +32,9 @@ totalpostpartyAngel <- as.numeric(df[df$charity=="totalangel",1]) + cashangel + 
 totalpostpartyLF <- as.numeric(df[df$charity=="totalLF",1]) + cashLF + squareLF + bothcash/2 + bothsquare/2
 totalALL <- totalpostpartyAngel + totalpostpartyLF
 # bind
+df = rbind(df,c(totalALL,"totalALL"))
 df = rbind(df,c(totalpostpartyAngel,"totalpostpartyAngel"))
 df = rbind(df,c(totalpostpartyLF,"totalpostpartyLF"))
-df = rbind(df,c(totalALL,"totalALL"))
 
 # amt is a number
 df$amt <- as.numeric(df$amt)
@@ -59,7 +59,7 @@ datetmp <- paste ("Figure updated", curdate)
 
 # graph
 barpositions <- c("The Angel Foundation", "The Little Falls Watershed Alliance", "Total Raised")
-ggplot(data=dftotals, aes(x=nicename, y=amt, fill=charity)) + geom_bar(colour="black", stat="identity") + guides(fill=FALSE) + scale_x_discrete(limits = barpositions) + ggtitle("Amount Raised Thus Far!") + labs(x="", y="$") + annotate("text", x = 1.1, y = max(dftotals$amt)+40, label = datetmp)
+ggplot(data=dftotals, aes(x=nicename, y=amt, fill=charity)) + geom_bar(colour="black", stat="identity") + guides(fill=FALSE) + scale_x_discrete(limits = barpositions) + ggtitle("Amount Raised, Donal O'Connell Fundraiser 2015!") + labs(x="", y="$") + annotate("text", x = 1.1, y = max(dftotals$amt)+40, label = datetmp)
 
 dev.off()
 
