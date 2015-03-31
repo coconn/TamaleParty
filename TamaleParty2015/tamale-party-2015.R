@@ -1,6 +1,6 @@
 # tamale party fundraising
 # http://www.evite.com/event/020FCVNEZTZW24TRWEPEYUGHJEU2EM
-#
+# tamaleparties.wordpress.com
 
 # bring in data
 # see tamale-party-2015.csv
@@ -20,6 +20,22 @@ totalamt <- sum(as.numeric(df$amt[df$charity=="The Little Falls Watershed Allian
 newrow = c(totalamt, "totalLF")
 df = rbind(df,newrow)
 
+# add in rows for cash and square from party
+cashangel <- 198
+squareangel <- 140
+cashLF <- 66
+squareLF <- 120.5
+bothcash <- 372
+bothsquare <- 52
+# do the sums
+totalpostpartyAngel <- as.numeric(df[df$charity=="totalangel",1]) + cashangel + squareangel + bothcash/2 + bothsquare/2
+totalpostpartyLF <- as.numeric(df[df$charity=="totalLF",1]) + cashLF + squareLF + bothcash/2 + bothsquare/2
+totalALL <- totalpostpartyAngel + totalpostpartyLF
+# bind
+df = rbind(df,c(totalpostpartyAngel,"totalpostpartyAngel"))
+df = rbind(df,c(totalpostpartyLF,"totalpostpartyLF"))
+df = rbind(df,c(totalALL,"totalALL"))
+
 # amt is a number
 df$amt <- as.numeric(df$amt)
 # charity is a factor
@@ -33,7 +49,7 @@ dftotals$nicename <- c("Total Raised", "The Angel Foundation", "The Little Falls
 # make graph
 library(ggplot2)
 
-# where / how to save in this loop
+# where / how to save
 setwd("~/Documents/GITHUB/TamaleParty/TamaleParty2015/")
 png(file = "tamale-party-2015-money-raised.png",width=8,height=5,units="in",res=150)
 
@@ -46,6 +62,8 @@ barpositions <- c("The Angel Foundation", "The Little Falls Watershed Alliance",
 ggplot(data=dftotals, aes(x=nicename, y=amt, fill=charity)) + geom_bar(colour="black", stat="identity") + guides(fill=FALSE) + scale_x_discrete(limits = barpositions) + ggtitle("Amount Raised Thus Far!") + labs(x="", y="$") + annotate("text", x = 1.1, y = max(dftotals$amt)+40, label = datetmp)
 
 dev.off()
+
+
 
 
 
